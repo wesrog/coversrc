@@ -28,15 +28,11 @@
     - else
       No artwork found.
 
-%h3
-  %a{:onclick => '$("#tags").toggle()'}
-    = %{Tags for "#{@tracks.last_played_artist}"}
-
 #tags
-  %code=@tracks.tags.map { |t| %{<a href="http://www.last.fm/tag/#{t.content}">#{t.content}</a>}}.join(', ')
+  %code=@tracks.tags.map { |t| %{<a href="http://www.last.fm/tag/#{t.content}">#{t.content}</a>}}.join(' ')
 
-%p
-  %a{:href => '#', :onclick => '$("#debug").toggle()'} debug
-#debug{:style => 'display:none'}
-  %textarea(style="width:100%; height:200px")= @tracks.tracks
-  %textarea(style="width:100%; height:200px")= @tracks.tags
+-#%p
+  -#%a{:href => '#', :onclick => '$("#debug").toggle()'} debug
+-##debug{:style => 'display:none'}
+  -#%textarea(style="width:100%; height:200px")= @tracks.tracks
+  -#%textarea(style="width:100%; height:200px")= @tracks.tags
