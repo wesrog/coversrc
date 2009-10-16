@@ -1,8 +1,6 @@
-You are watching:
-= %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
-= "(#{@tracks.status})"
-
 %h1
+  = %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
+  is
   - if @tracks.now_playing?
     Now Playing:
   - else
