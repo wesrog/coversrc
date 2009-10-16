@@ -1,5 +1,5 @@
 You are watching: #{@user}
-- if @first['nowplaying'] == 'true'
+- if @last_played['nowplaying'] == 'true'
   %h1
     Now Playing:
     = @artist
@@ -12,7 +12,7 @@ You are watching: #{@user}
     Last track played:
 
 /%img{:src => @first.xpath('//image')['size'] == 'extralarge'}.first.content
-- @first.xpath('image').each do |img|
+- @last_played.xpath('image').each do |img|
   - if img['size'] == 'extralarge'
     - unless img.content == ''
       %img{:src => img.content}
@@ -25,4 +25,4 @@ You are watching: #{@user}
 %p
   %a{:href => '#', :onclick => '$("#debug").toggle()'} debug
 #debug{:style => 'display:none'}
-  = @first
+  = @last_played

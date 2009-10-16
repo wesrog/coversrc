@@ -9,10 +9,11 @@ LASTFM_API_KEY = '667910e60f2e9eb583f722f61dc01aab'
 get %r{^/([\w\-/]+)?$} do |user|
   @user = user || 'arniemg'
   @recent = recent_tracks(@user)
-  @first = @recent.xpath('//track').first
-  @artist = @first.xpath('artist').first.content
-  @track = @first.xpath('name').first.content
-  @tags = top_tags(@first.xpath('artist').first.content)
+  @tracks = @recent.xpath('//track')
+  @last_played = @tracks.first
+  @artist = @last_played.xpath('artist').first.content
+  @track = @last_played.xpath('name').first.content
+  @tags = top_tags(@last_played.xpath('artist').first.content)
   haml :index
 end
 
