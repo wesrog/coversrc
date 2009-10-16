@@ -7,9 +7,11 @@
       Recently Played:
 
 %h2
-  = @tracks.last_played_artist
+  %a{:href => "http://last.fm/music/#{@tracks.last_played_artist}"}
+    = @tracks.last_played_artist
   \-
-  = @tracks.last_played_track
+  %a{:href => "http://last.fm/music/#{@tracks.last_played_artist}/_/#{@tracks.last_played_track}"}
+    = @tracks.last_played_track
 
 - @tracks.images.each do |img|
   - if img['size'] == 'extralarge'
