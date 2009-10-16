@@ -21,8 +21,12 @@ class RecentTracks
     last_played.xpath('name').first.content
   end
 
+  def images
+    last_played.xpath('image')
+  end
+
   def tags
-    top_tags(last_played_artist)
+    top_tags(last_played_artist).xpath('//tag/name').map { |t| t.content }.join(', ')
   end
 
   def now_playing?

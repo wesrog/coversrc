@@ -9,7 +9,7 @@ You are watching: #{@user}
   \-
   = @tracks.last_played_track
 
-- @tracks.last_played.xpath('image').each do |img|
+- @tracks.images.each do |img|
   - if img['size'] == 'extralarge'
     - unless img.content == ''
       %img{:src => img.content}
@@ -17,10 +17,10 @@ You are watching: #{@user}
       No artwork found.
 
 %h2= %{Tags for "#{@tracks.last_played_artist}"}
-%code=@tracks.tags.xpath('//tag/name').map { |t| t.content }.join(', ')
+%code=@tracks.tags
 
 %p
   %a{:href => '#', :onclick => '$("#debug").toggle()'} debug
 #debug{:style => 'display:none'}
-  %textarea(style="width:100%; height:200px")= @tracks
+  %textarea(style="width:100%; height:200px")= @tracks.tracks
   %textarea(style="width:100%; height:200px")= @tracks.tags
