@@ -9,4 +9,10 @@
   %link(rel="stylesheet" type="text/css" href="/coversrc.css")
   
   %body
+    - if @user
+      #change-user-form
+        %form(method="GET" action="/")
+          %label(for="user")= "Not #{@user}?"
+          %input(type="text" name="user" size="10")
+
     #centre= yield
