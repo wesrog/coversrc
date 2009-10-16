@@ -1,0 +1,28 @@
+You are watching: #{@user}
+- if @first['nowplaying'] == 'true'
+  %h1
+    Now Playing:
+    = @artist
+    \-
+    = @track
+- else
+  %h1
+    Inactive
+  %p
+    Last track played:
+
+/%img{:src => @first.xpath('//image')['size'] == 'extralarge'}.first.content
+- @first.xpath('image').each do |img|
+  - if img['size'] == 'extralarge'
+    - unless img.content == ''
+      %img{:src => img.content}
+    - else
+      No artwork found.
+
+%h2= %{Tags for "#{@artist}"}
+%code=@tags.xpath('//tag/name').map { |t| t.content }.join(', ')
+
+%p
+  %a{:href => '#', :onclick => '$("#debug").toggle()'} debug
+#debug{:style => 'display:none'}
+  = @first
