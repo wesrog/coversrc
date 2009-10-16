@@ -30,7 +30,7 @@ class RecentTracks
   end
 
   def tags
-    top_tags(last_played_artist).xpath('//tag/name')
+    top_tags(last_played_artist).xpath('//tag/name')[0..9]
   end
 
   def now_playing?
