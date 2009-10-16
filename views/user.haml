@@ -6,7 +6,7 @@ You are watching:
   - if @tracks.now_playing?
     Now Playing:
   - else
-    Inactive
+    Last Track Played:
 
 %h2
   = @tracks.last_played_artist
@@ -25,7 +25,7 @@ You are watching:
     - else
       No artwork found.
 
-%h2
+%h3
   %a{:onclick => '$("#tags").toggle()'}
     = %{Tags for "#{@tracks.last_played_artist}"}
 
