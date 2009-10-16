@@ -30,7 +30,7 @@ class RecentTracks
   end
 
   def tags
-    top_tags(last_played_artist).xpath('//tag/name').map { |t| t.content }.join(', ')
+    top_tags(last_played_artist).xpath('//tag/name')
   end
 
   def now_playing?

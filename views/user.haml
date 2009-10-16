@@ -1,4 +1,5 @@
-You are watching: #{@user}
+You are watching:
+= %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
 = "(#{@tracks.status})"
 
 %h1
@@ -29,7 +30,7 @@ You are watching: #{@user}
     = %{Tags for "#{@tracks.last_played_artist}"}
 
 #tags
-  %code=@tracks.tags
+  %code=@tracks.tags.map { |t| %{<a href="http://www.last.fm/tag/#{t.content}">#{t.content}</a>}}.join(', ')
 
 %p
   %a{:href => '#', :onclick => '$("#debug").toggle()'} debug
