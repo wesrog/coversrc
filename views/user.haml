@@ -7,6 +7,7 @@ You are watching: #{@user}
   - else
     Inactive
 
+%h2
   = @tracks.last_played_artist
   \-
   = @tracks.last_played_track
@@ -15,11 +16,20 @@ You are watching: #{@user}
   - if img['size'] == 'extralarge'
     - unless img.content == ''
       %img{:src => img.content}
+
+      %p
+        %small
+          Album artwork from
+          %a(href="http://last.fm") last.fm
     - else
       No artwork found.
 
-%h2= %{Tags for "#{@tracks.last_played_artist}"}
-%code=@tracks.tags
+%h2
+  %a{:onclick => '$("#tags").toggle()'}
+    = %{Tags for "#{@tracks.last_played_artist}"}
+
+#tags
+  %code=@tracks.tags
 
 %p
   %a{:href => '#', :onclick => '$("#debug").toggle()'} debug
