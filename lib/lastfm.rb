@@ -9,6 +9,10 @@ class RecentTracks
     @tracks.xpath('//track')
   end
 
+  def status
+    (now_playing?) ? 'Now playing...' : 'Inactive...'
+  end
+
   def last_played
     tracks.first
   end

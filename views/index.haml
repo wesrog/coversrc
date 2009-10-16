@@ -1,26 +1,10 @@
-You are watching: #{@user}
-%h1
-  - if @tracks.now_playing?
-    Now Playing:
-  - else
-    Inactive
-
-  = @tracks.last_played_artist
-  \-
-  = @tracks.last_played_track
-
-- @tracks.images.each do |img|
-  - if img['size'] == 'extralarge'
-    - unless img.content == ''
-      %img{:src => img.content}
-    - else
-      No artwork found.
-
-%h2= %{Tags for "#{@tracks.last_played_artist}"}
-%code=@tracks.tags
+%h1 Welcome to CoverSrc
 
 %p
-  %a{:href => '#', :onclick => '$("#debug").toggle()'} debug
-#debug{:style => 'display:none'}
-  %textarea(style="width:100%; height:200px")= @tracks.tracks
-  %textarea(style="width:100%; height:200px")= @tracks.tags
+  Start by entering your
+  %a(href="http://last.fm") last.fm
+  user name
+
+%form(method="GET" action="/")
+  %input(type="text" name="user")
+  %input(type="submit" value="Go")
