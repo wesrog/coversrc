@@ -20,10 +20,10 @@ get %r{^/([\w\-/]+)?} do |user|
   @user = user
   @tracks = RecentTracks.new(@user)
 
-  if @tracks
+  unless @tracks.tracks.empty?
     haml :user
   else
-    'not found'
+    haml :index
   end
 end
 
