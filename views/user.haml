@@ -1,9 +1,15 @@
-%h1
-  = %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
-  - if @tracks.now_playing?
-    is Now Playing:
-  - else
-    Recently Played:
+#change-user-form
+  %form(method="GET" action="/")
+    %label(for="user")= "Not #{@user}?"
+    %input(type="text" name="user" size="10")
+
+#now-playing
+  %h1
+    = %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
+    - if @tracks.now_playing?
+      is Now Playing:
+    - else
+      Recently Played:
 
 %h2
   = @tracks.last_played_artist
