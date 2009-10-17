@@ -18,7 +18,9 @@ class DiscogsRelease
   end
 
   def image
-    @release.xpath('//image').first['uri']
+    if uri = @release.xpath('//image').first
+      uri['uri']
+    end
   end
 
 end
