@@ -28,9 +28,12 @@
 #more-info
   %h3= "#{@tracks.last_played_track} Appears on:"
   %ul
-    - @search.results.each do |r|
+    - @search.ids.each do |id|
       %li
-        %a{:href => r.image}= r.title
+        %a{:href => "http://www.discogs.com/viewimages?release=#{id}"}= id
+    -#- @search.results.each do |r|
+      -#%li
+        -#%a{:href => r.image}= r.title
 
 #tags
   = @tracks.tags.map { |t| tag_link(t)}.join(' ')

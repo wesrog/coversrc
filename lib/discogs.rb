@@ -9,6 +9,10 @@ class DiscogsRelease
     @release = Nokogiri::XML(gzip)
   end
 
+  def id
+    @id
+  end
+
   def release
     @release
   end
@@ -36,6 +40,10 @@ class DiscogsSearch
 
   def results
     @results.xpath('//result').map { |r| DiscogsRelease.new(r.xpath('uri').first.content.scan(/\d+$/)) }
+  end
+
+  def ids
+    @results.xpath('//result').map { |r| r.xpath('uri').first.content.scan(/\d+$/) }
   end
 
   def self.search(artist, track)
