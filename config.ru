@@ -6,5 +6,7 @@ require 'zlib'
 require 'coversrc'
 
 set :haml, { :format => :html5 }
+set :run, false
+set :environment, :production
 
 run Sinatra::Application
