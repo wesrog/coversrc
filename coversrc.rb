@@ -20,7 +20,7 @@ end
 get %r{^/([\w\-/]+)?} do |user|
   @user = user
   @tracks = RecentTracks.new(@user)
-  @d = Discogs.search(@tracks.last_played_artist, @tracks.last_played_track)
+  @search = DiscogsSearch.new(@tracks.last_played_artist, @tracks.last_played_track)
 
   unless @tracks.tracks.empty?
     haml :user
@@ -37,4 +37,10 @@ helpers do
   def artist_link(artist)
     
   end
+end
+
+error do
+  e = request.env['sinatra.error']
+  Kernel.puts e.backtrace.join("\n")
+  'Application error'
 end
