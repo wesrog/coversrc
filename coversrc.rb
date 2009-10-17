@@ -1,5 +1,6 @@
 $: << File.join(File.dirname(__FILE__), 'lib')
 require 'lastfm'
+require 'discogs'
 
 DISCOGS_API_KEY = '21862297af'
 LASTFM_API_KEY = '667910e60f2e9eb583f722f61dc01aab'
@@ -19,6 +20,7 @@ end
 get %r{^/([\w\-/]+)?} do |user|
   @user = user
   @tracks = RecentTracks.new(@user)
+  @d = Discogs.search(@tracks.last_played_artist, @tracks.last_played_track)
 
   unless @tracks.tracks.empty?
     haml :user

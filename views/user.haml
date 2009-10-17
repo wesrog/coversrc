@@ -25,6 +25,10 @@
     - else
       %h3 No artwork found
 
+- @d.each do |i|
+  %p
+    %a(href=i)= i
+
 #tags
   = @tracks.tags.map { |t| tag_link(t)}.join(' ')
 
