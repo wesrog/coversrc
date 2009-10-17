@@ -23,6 +23,7 @@ get %r{^/([\w\-/]+)?} do |user|
   @search = DiscogsSearch.new(@tracks.last_played_artist, @tracks.last_played_track)
 
   headers['Cache-Control'] = 'public, max-age=60'
+  etag @tracks.to_etag
   
   unless @tracks.tracks.empty?
     haml :user

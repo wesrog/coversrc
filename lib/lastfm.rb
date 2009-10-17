@@ -1,3 +1,4 @@
+require 'digest'
 class RecentTracks
 
   def initialize(user)
@@ -7,6 +8,10 @@ class RecentTracks
 
   def tracks
     @tracks.xpath('//track')
+  end
+
+  def to_etag
+    Digest::MD5.hexdigest(last_played)
   end
 
   def status
