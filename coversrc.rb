@@ -27,3 +27,12 @@ get %r{^/([\w\-/]+)?} do |user|
   end
 end
 
+helpers do
+  def tag_link(tag)
+    %{<a href="http://www.last.fm/tag/#{tag}">#{tag}</a>}
+  end
+
+  def artist_link(artist)
+    
+  end
+end

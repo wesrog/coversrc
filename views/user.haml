@@ -1,17 +1,17 @@
 #now-playing
-  %h1
+  %h2
     = %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
     - if @tracks.now_playing?
       is Now Playing:
     - else
-      Recently Played:
+      Recently Listened to:
 
-%h2
-  %a{:href => "http://last.fm/music/#{@tracks.last_played_artist}"}
-    = @tracks.last_played_artist
-  \-
+%h3
   %a{:href => "http://last.fm/music/#{@tracks.last_played_artist}/_/#{@tracks.last_played_track}"}
     = @tracks.last_played_track
+  by
+  %a{:href => "http://last.fm/music/#{@tracks.last_played_artist}"}
+    = @tracks.last_played_artist
 
 - @tracks.images.each do |img|
   - if img['size'] == 'extralarge'
@@ -23,10 +23,10 @@
           Album artwork from
           %a(href="http://last.fm") last.fm
     - else
-      No artwork found.
+      %h3 No artwork found
 
 #tags
-  %code=@tracks.tags.map { |t| %{<a href="http://www.last.fm/tag/#{t.content}">#{t.content}</a>}}.join(' ')
+  = @tracks.tags.map { |t| tag_link(t)}.join(' ')
 
 -#%p
   -#%a{:href => '#', :onclick => '$("#debug").toggle()'} debug
