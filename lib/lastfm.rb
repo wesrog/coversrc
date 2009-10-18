@@ -53,6 +53,10 @@ class Artist
     @name = name
   end
 
+  def to_s
+    @name
+  end
+
   def top_tags
     doc = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=#{URI.encode(@name)}&api_key=#{LASTFM_API_KEY}"))
     doc.xpath('//tag/name')[0..4]

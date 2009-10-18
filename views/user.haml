@@ -25,8 +25,13 @@
     - else
       %h3 No artwork found on Last.fm
 
-%h3 Last.fm Tags
+%h3
+  Tags for
+  = @lp_artist
 #lastfm-tags= @lp_artist.top_tags.map { |t| tag_link(t)}.join(' ')
+%small
+  Tags provided by
+  %a(href="http://last.fm") Last.fm
 
 #discogs-releases
   %h3= %{"#{@user.lp_track}" Appears on:}
