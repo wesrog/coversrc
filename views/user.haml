@@ -1,54 +1,46 @@
-#now-playing
-  %h2
-    = %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
-    - if @user.now_playing?
-      is Now Playing:
-    - else
-      Recently Listened to:
+#lastfm
+  -##now-playing
+    -#%h2
+      -#= %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
+      -#- if @user.now_playing?
+        -#is Now Playing:
+      -#- else
+        -#Recently Listened to:
 
-%h3
-  %a{:href => "http://last.fm/music/#{@user.lp_artist}/_/#{@user.lp_track}"}
-    = @user.lp_track
-  by
-  %a{:href => "http://last.fm/music/#{@user.lp_artist}"}
-    = @user.lp_artist
+  %h3
+    %a{:href => "http://last.fm/music/#{@user.lp_artist}/_/#{@user.lp_track}"}
+      = @user.lp_track
+    by
+    %a{:href => "http://last.fm/music/#{@user.lp_artist}"}
+      = @user.lp_artist
 
-#lastfm-artwork
   - @user.images.each do |img|
     - if img['size'] == 'extralarge'
-      - unless img.content == ''
-        %img{:src => img.content}
-
-        %p
-          %small
-            Album artwork from
-            %a(href="http://last.fm") Last.fm
+      - if img.content == ''
+        %img{:src => 'no-artwork.jpg'}
       - else
-        %h3 No artwork found on Last.fm
+        #artwork
+          %img{:src => img.content}
 
-%h3
-  Tags for
-  = @lp_artist
-#lastfm-tags= @lp_artist.top_tags.map { |t| tag_link(t)}.join(' ')
-%small
-  Tags provided by
-  %a(href="http://last.fm") Last.fm
+  #tags= @lp_artist.top_tags.map { |t| tag_link(t.content)}.join(' ')
+  -#%textarea= @lp_artist.top_tags.map { |t| t.content }.join(' ')}
 
-#discogs-releases
-  %h3= %{"#{@user.lp_track}" Appears on:}
-  %dl
-    - @search.results.each do |r|
-      %dt
-        %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
-        = %{(#{r.format})}
-        has
-        = pluralize(r.image_count, 'image')
-      %dd
-        %strong Genres:
-        = r.genres.map { |g| g.content }.join(', ')
-        %br
-        %strong Styles:
-        = r.styles.map { |s| s.content }.join(', ')
+#discogs
+  #releases
+    %h3= %{"#{@user.lp_track}" Appears on:}
+    %dl
+      - @search.results.each do |r|
+        %dt
+          %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
+          = %{(#{r.format})}
+          has
+          = pluralize(r.image_count, 'image')
+        %dd
+          %strong Genres:
+          = r.genres.map { |g| g.content }.join(', ')
+          %br
+          %strong Styles:
+          = r.styles.map { |s| s.content }.join(', ')
 
 -#%p
   -#%a{:href => '#', :onclick => '$("#debug").toggle()'} debug

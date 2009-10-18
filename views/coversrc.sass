@@ -67,14 +67,30 @@ h1#logo a
   -webkit-border-radius: 15px
   -moz-border-radius: 15px
 
-#now-playing
+#lastfm
+  //background: transparent url(lastfm.png) no-repeat left left
+  #now-playing
 
-#lastfm-artwork img
-  -webkit-transform: rotate(-2deg)
-  -moz-transform: rotate(-2deg)
+  #artwork
+    img
+      border: .5em solid darkgrey
+      width: 300px
+      //-webkit-transform: rotate(-2deg)
+      //-moz-transform: rotate(-2deg)
 
+  #tags
+    margin: 0 0 1em 0
+    font-size: 18px
 
-#discogs-releases, #more-info
+  #tags a
+    text-decoration: none
+
+  textarea
+    font-size: 18px
+    width: 400px
+    border: none
+
+#releases, #more-info
   background-color: #fff
   -webkit-border-radius: 15px
   -moz-border-radius: 15px
@@ -89,10 +105,6 @@ h1#logo a
     dd:nth-child(odd)
       background: #fff
   
-
-#lastfm-tags, #discogs-genres-styles
-  margin: 0 0 1em 0
-  font-size: 18px
 
 .clear
   clear: both
