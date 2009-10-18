@@ -10,6 +10,10 @@ class User
     @user
   end
 
+  def to_s
+    name
+  end
+
   def recent_tracks
     @recent_tracks.xpath('//track')
   end

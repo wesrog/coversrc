@@ -20,6 +20,7 @@ end
 get %r{^/([\w\-/]+)?} do |user|
   @user = User.new(user)
   @recent_tracks = @user.recent_tracks
+  @lp_artist = Artist.new(@user.lp_artist)
   @search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
 
   if ENV['RACK_ENV'] == 'production'

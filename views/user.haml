@@ -1,6 +1,6 @@
 #now-playing
   %h2
-    = %{<a href="http://last.fm/user/#{@user.name}">#{@user.name}</a>}
+    = %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
     - if @user.now_playing?
       is Now Playing:
     - else
@@ -33,7 +33,7 @@
         %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
         = %{(#{r.format})}
 
-#lastfm-tags= Artist.new(@user.lp_artist).top_tags.map { |t| tag_link(t)}.join(' ')
+#lastfm-tags= @lp_artist.top_tags.map { |t| tag_link(t)}.join(' ')
 
 #discogs-genres-styles
 
