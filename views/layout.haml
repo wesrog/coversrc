@@ -11,6 +11,8 @@
   
   %body
     - if @user
+      %h1#badge
+        %a{:href => '/'} Cover Source
       #change-user-form
         %form(method="GET" action="/")
           %label(for="user")= "Not #{@user}?"
