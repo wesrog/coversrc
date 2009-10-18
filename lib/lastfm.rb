@@ -1,13 +1,17 @@
 require 'digest'
-class RecentTracks
+class User
 
   def initialize(user)
     @user = user
-    @tracks = get_recent_tracks
+    @recent_tracks = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{@user}&api_key=#{LASTFM_API_KEY}"))
   end
 
-  def tracks
-    @tracks.xpath('//track')
+  def name
+    @user
+  end
+
+  def recent_tracks
+    @recent_tracks.xpath('//track')
   end
 
   def to_etag
@@ -19,14 +23,14 @@ class RecentTracks
   end
 
   def last_played
-    tracks.first
+    recent_tracks.first
   end
 
-  def last_played_artist
+  def lp_artist
     last_played.xpath('artist').first.content
   end
 
-  def last_played_track
+  def lp_track
     last_played.xpath('name').first.content
   end
 
@@ -34,22 +38,19 @@ class RecentTracks
     last_played.xpath('image')
   end
 
-  def tags
-    top_tags(last_played_artist).xpath('//tag/name')[0..4]
-  end
-
   def now_playing?
     last_played['nowplaying'] == 'true'
   end
-
-private
   
-  def get_recent_tracks
-    Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{@user}&api_key=#{LASTFM_API_KEY}"))
+end
+
+class Artist
+  def initialize(name)
+    @name = name
   end
 
-  def top_tags(artist)
-    Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=#{URI.encode(artist)}&api_key=#{LASTFM_API_KEY}"))
+  def top_tags
+    doc = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=#{URI.encode(@name)}&api_key=#{LASTFM_API_KEY}"))
+    doc.xpath('//tag/name')[0..4]
   end
-
 end

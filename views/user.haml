@@ -1,19 +1,19 @@
 #now-playing
   %h2
-    = %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
-    - if @tracks.now_playing?
+    = %{<a href="http://last.fm/user/#{@user.name}">#{@user.name}</a>}
+    - if @user.now_playing?
       is Now Playing:
     - else
       Recently Listened to:
 
 %h3
-  %a{:href => "http://last.fm/music/#{@tracks.last_played_artist}/_/#{@tracks.last_played_track}"}
-    = @tracks.last_played_track
+  %a{:href => "http://last.fm/music/#{@user.lp_artist}/_/#{@user.lp_track}"}
+    = @user.lp_track
   by
-  %a{:href => "http://last.fm/music/#{@tracks.last_played_artist}"}
-    = @tracks.last_played_artist
+  %a{:href => "http://last.fm/music/#{@user.lp_artist}"}
+    = @user.lp_artist
 
-- @tracks.images.each do |img|
+- @user.images.each do |img|
   - if img['size'] == 'extralarge'
     - unless img.content == ''
       %img{:src => img.content}
@@ -26,15 +26,17 @@
       %h3 No artwork found on last.fm
 
 #discogs-releases
-  %h3= %{"#{@tracks.last_played_track}" Appears on:}
+  %h3= %{"#{@user.lp_track}" Appears on:}
   %ul
     - @search.results.each do |r|
       %li
         %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
         = %{(#{r.format})}
 
-%h3 last.fm Tags
-#tags= @tracks.tags.map { |t| tag_link(t)}.join(' ')
+#lastfm-tags= Artist.new(@user.lp_artist).top_tags.map { |t| tag_link(t)}.join(' ')
+
+#discogs-genres-styles
+
 
 -#%p
   -#%a{:href => '#', :onclick => '$("#debug").toggle()'} debug
