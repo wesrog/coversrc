@@ -62,12 +62,18 @@ h1#logo a
   -moz-border-radius: 15px
 
 #lastfm
-  background-color: #fff
   -webkit-border-radius: 15px
   -moz-border-radius: 15px
   padding: 1em
   margin: 0 1em 1em 1em
-  //background: transparent url(lastfm.png) no-repeat left left
+  background-color: #fff
+  position: relative
+
+  #badge
+    position: absolute
+    top: 20px
+    left: -50px
+
   #now-playing
 
   #artwork
@@ -85,21 +91,20 @@ h1#logo a
       color: purple
       text-decoration: underline
 
-#releases, #more-info
-  background-color: #fff
+#discogs, #more-info
   -webkit-border-radius: 15px
   -moz-border-radius: 15px
-  text-align: left
   padding: 1em
-  margin: 0 1em
+  margin: 0 1em 1em 1em
+  text-align: left
   font-size: 18px
-  font-family: Georgia, sans-serif
-  dl
-    dd:nth-child(even)
-      background: #eee
-    dd:nth-child(odd)
-      background: #fff
-  
+  background-color: #fff
+  position: relative
+
+  img
+    position: absolute
+    top: 20px
+    left: -50px
 
 .clear
   clear: both

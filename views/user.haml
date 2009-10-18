@@ -1,4 +1,6 @@
 #lastfm
+  #badge
+    %img{:src => 'lastfm.png'}
   -##now-playing
     -#%h2
       -#= %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
@@ -26,21 +28,22 @@
   -#%textarea= @lp_artist.top_tags.map { |t| t.content }.join(' ')}
 
 #discogs
-  #releases
-    %h3= %{"#{@user.lp_track}" Appears on:}
-    %dl
-      - @search.results.each do |r|
-        %dt
-          %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
-          = %{(#{r.format})}
-          has
-          = pluralize(r.image_count, 'image')
-        %dd
-          %strong Genres:
-          = r.genres.map { |g| g.content }.join(', ')
-          %br
-          %strong Styles:
-          = r.styles.map { |s| s.content }.join(', ')
+  #badge
+    %img{:src => 'discogs.png'}
+  %h3= %{"#{@user.lp_track}" Appears on:}
+  %dl
+    - @search.results.each do |r|
+      %dt
+        %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
+        = %{(#{r.format})}
+        has
+        = pluralize(r.image_count, 'image')
+      %dd
+        %strong Genres:
+        = r.genres.map { |g| g.content }.join(', ')
+        %br
+        %strong Styles:
+        = r.styles.map { |s| s.content }.join(', ')
 
 -#%p
   -#%a{:href => '#', :onclick => '$("#debug").toggle()'} debug
