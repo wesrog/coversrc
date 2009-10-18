@@ -13,17 +13,18 @@
   %a{:href => "http://last.fm/music/#{@user.lp_artist}"}
     = @user.lp_artist
 
-- @user.images.each do |img|
-  - if img['size'] == 'extralarge'
-    - unless img.content == ''
-      %img{:src => img.content}
+#lastfm-artwork
+  - @user.images.each do |img|
+    - if img['size'] == 'extralarge'
+      - unless img.content == ''
+        %img{:src => img.content}
 
-      %p
-        %small
-          Album artwork from
-          %a(href="http://last.fm") Last.fm
-    - else
-      %h3 No artwork found on Last.fm
+        %p
+          %small
+            Album artwork from
+            %a(href="http://last.fm") Last.fm
+      - else
+        %h3 No artwork found on Last.fm
 
 %h3
   Tags for

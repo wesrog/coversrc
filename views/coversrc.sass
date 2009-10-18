@@ -23,6 +23,19 @@ a
   font-weight: bold
   text-decoration: none
 
+h1#logo
+  height: 115px
+  width: 500px
+  background: transparent url(coversrc-logo.png) no-repeat center center
+  text-indent: -9999px
+  display: block
+
+h1#logo a
+  display: block
+  outline: none
+  height: 100%
+  width: 100%
+
 #tags
   padding: 1em
   a
@@ -40,6 +53,11 @@ a
 
 #now-playing
 
+#lastfm-artwork
+  -webkit-transform: rotate(-2deg)
+  -moz-transform: rotate(-2deg)
+
+
 #discogs-releases, #more-info
   background-color: #fff
   -webkit-border-radius: 15px
@@ -49,13 +67,16 @@ a
   margin: 0 1em
   font-size: 18px
   font-family: Georgia, sans-serif
+  dl
+    dd:nth-child(even)
+      background: #eee
+    dd:nth-child(odd)
+      background: #fff
+  
 
 #lastfm-tags, #discogs-genres-styles
   margin: 0 0 1em 0
   font-size: 18px
-
-#discogs-releases
-  font-family: sans-serif
 
 .clear
   clear: both
