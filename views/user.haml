@@ -25,18 +25,16 @@
     - else
       %h3 No artwork found on last.fm
 
-#more-info
-  %h3= "#{@tracks.last_played_track} Appears on:"
+#discogs-releases
+  %h3= %{"#{@tracks.last_played_track}" Appears on:}
   %ul
-    - @search.ids.each do |id|
+    - @search.results.each do |r|
       %li
-        %a{:href => "http://www.discogs.com/viewimages?release=#{id}"}= id
-    -#- @search.results.each do |r|
-      -#%li
-        -#%a{:href => r.image}= r.title
+        %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
+        = %{(#{r.format})}
 
-#tags
-  = @tracks.tags.map { |t| tag_link(t)}.join(' ')
+%h3 last.fm Tags
+#tags= @tracks.tags.map { |t| tag_link(t)}.join(' ')
 
 -#%p
   -#%a{:href => '#', :onclick => '$("#debug").toggle()'} debug

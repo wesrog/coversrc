@@ -22,8 +22,10 @@ get %r{^/([\w\-/]+)?} do |user|
   @tracks = RecentTracks.new(@user)
   @search = DiscogsSearch.new(@tracks.last_played_artist, @tracks.last_played_track)
 
-  headers['Cache-Control'] = 'public, max-age=60'
-  etag @tracks.to_etag
+  if ENV['RACK_ENV'] == 'production'
+    headers['Cache-Control'] = 'public, max-age=60'
+    etag @tracks.to_etag
+  end
   
   unless @tracks.tracks.empty?
     haml :user

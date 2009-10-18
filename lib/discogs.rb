@@ -1,12 +1,20 @@
 require 'zlib'
 
+module Gzipper
+  def gzip_read(uri)
+    req = open(uri, 'Accept-Encoding' => 'gzip')
+    gzip = Zlib::GzipReader.new(req)
+    Nokogiri::XML(gzip)
+  end
+end
+
 class DiscogsRelease
+  include Gzipper
+
   def initialize(id)
     @id = id
     uri = "http://www.discogs.com/release/#{@id}?f=xml&api_key=#{DISCOGS_API_KEY}"
-    req = open(uri, 'Accept-Encoding' => 'gzip')
-    gzip = Zlib::GzipReader.new(req)
-    @release = Nokogiri::XML(gzip)
+    @release =  gzip_read(uri)
   end
 
   def id
@@ -27,15 +35,19 @@ class DiscogsRelease
     end
   end
 
+  def format
+    @release.xpath('//format').first['name']
+  end
+
 end
 
 class DiscogsSearch
+  include Gzipper
+
   def initialize(artist, track)
     @artist, @track = URI.encode(artist), URI.encode(track)
     uri = "http://www.discogs.com/search?type=all&q=#{@artist}+#{@track}&f=xml&api_key=#{DISCOGS_API_KEY}"
-    req = open(uri, 'Accept-Encoding' => 'gzip')
-    gzip = Zlib::GzipReader.new(req)
-    @results = Nokogiri::XML(gzip)
+    @results = gzip_read(uri)
   end
 
   def results
