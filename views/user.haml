@@ -1,13 +1,6 @@
 #lastfm
   #badge
     %img{:src => 'lastfm.png'}
-  -##now-playing
-    -#%h2
-      -#= %{<a href="http://last.fm/user/#{@user}">#{@user}</a>}
-      -#- if @user.now_playing?
-        -#is Now Playing:
-      -#- else
-        -#Recently Listened to:
 
   %h3
     %a{:href => "http://last.fm/music/#{@user.lp_artist}/_/#{@user.lp_track}"}
@@ -25,7 +18,6 @@
           %img{:src => img.content}
 
   #tags= @lp_artist.top_tags.map { |t| tag_link(t.content)}.join(' ')
-  -#%textarea= @lp_artist.top_tags.map { |t| t.content }.join(' ')}
 
 #discogs
   #badge
@@ -44,9 +36,3 @@
         %br
         %strong Styles:
         = r.styles.map { |s| s.content }.join(', ')
-
--#%p
-  -#%a{:href => '#', :onclick => '$("#debug").toggle()'} debug
--##debug{:style => 'display:none'}
-  -#%textarea(style="width:100%; height:200px")= @tracks.tracks
-  -#%textarea(style="width:100%; height:200px")= @tracks.tags
