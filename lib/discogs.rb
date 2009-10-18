@@ -39,6 +39,10 @@ class DiscogsRelease
     @release.xpath('//format').first['name']
   end
 
+  def image_count
+    @release.xpath('//image').size
+  end
+
 end
 
 class DiscogsSearch
@@ -54,25 +58,12 @@ class DiscogsSearch
     @results.xpath('//result').map { |r| DiscogsRelease.new(r.xpath('uri').first.content.scan(/\d+$/)) }
   end
 
-  def ids
-    @results.xpath('//result').map { |r| r.xpath('uri').first.content.scan(/\d+$/) }
+  def image_count
+    results.inject { |sum, result| sum ? sum + result : result }
   end
 
-  def self.search(artist, track)
-    #images = []
-    #doc.xpath('//result/uri').each do |r|
-      #id = r.content.scan(/\d+$/)
-      #uri = "http://www.discogs.com/release/#{id}?f=xml&api_key=#{DISCOGS_API_KEY}"
-      #req = open(uri, 'Accept-Encoding' => 'gzip')
-      #gzip = Zlib::GzipReader.new(req)
-      #doc = Nokogiri::XML(gzip)
-      ##albums = doc.xpath('//track/title').map { |t| t.content == track }
-      ##unless albums.empty?
-        ##images << doc.xpath('//image').map { |i| i['uri'] }
-        ##images << doc.xpath('//image').first['uri']
-      ##end
-    #end
-    #images
+  def ids
+    @results.xpath('//result').map { |r| r.xpath('uri').first.content.scan(/\d+$/) }
   end
 
 end

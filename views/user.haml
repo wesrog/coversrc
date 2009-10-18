@@ -21,20 +21,24 @@
       %p
         %small
           Album artwork from
-          %a(href="http://last.fm") last.fm
+          %a(href="http://last.fm") Last.fm
     - else
-      %h3 No artwork found on last.fm
+      %h3 No artwork found on Last.fm
 
 #discogs-releases
   %h3= %{"#{@user.lp_track}" Appears on:}
   %ul
     - @search.results.each do |r|
       %li
+        = pluralize(r.image_count, 'image')
+        from
         %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
         = %{(#{r.format})}
 
+%h3 Last.fm Tags
 #lastfm-tags= @lp_artist.top_tags.map { |t| tag_link(t)}.join(' ')
 
+%h3 Discogs Genres and Styles
 #discogs-genres-styles
 
 

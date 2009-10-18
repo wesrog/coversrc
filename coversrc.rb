@@ -43,6 +43,10 @@ helpers do
   def artist_link(artist)
     
   end
+
+  def pluralize(count, word)
+    count == 1 ? "#{count} #{word}" : "#{count} #{word}s"
+  end
 end
 
 error do
