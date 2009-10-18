@@ -24,7 +24,7 @@ get %r{^/([\w\-/]+)?} do |user|
 
   if ENV['RACK_ENV'] == 'production'
     headers['Cache-Control'] = 'public, max-age=60'
-    etag @recent_tracks.to_etag
+    etag @user.to_etag
   end
   
   unless @user.recent_tracks.empty?
