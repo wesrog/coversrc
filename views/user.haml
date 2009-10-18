@@ -33,17 +33,16 @@
   %dl
     - @search.results.each do |r|
       %dt
-        = pluralize(r.image_count, 'image')
-        from
         %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
         = %{(#{r.format})}
+        has
+        = pluralize(r.image_count, 'image')
       %dd
-        %p
-          %strong Genres:
-          = r.genres.map { |g| g.content }.join(', ')
-        %p
-          %strong Styles:
-          = r.styles.map { |s| s.content }.join(', ')
+        %strong Genres:
+        = r.genres.map { |g| g.content }.join(', ')
+        %br
+        %strong Styles:
+        = r.styles.map { |s| s.content }.join(', ')
 
 -#%p
   -#%a{:href => '#', :onclick => '$("#debug").toggle()'} debug
