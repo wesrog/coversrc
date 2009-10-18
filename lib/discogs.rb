@@ -5,6 +5,9 @@ module Gzipper
     req = open(uri, 'Accept-Encoding' => 'gzip')
     gzip = Zlib::GzipReader.new(req)
     Nokogiri::XML(gzip)
+  rescue Zlib::GzipFile::Error
+    # TODO not sure why this happens and the best way to handle the error
+    Nokogiri::XML::Document.new
   end
 end
 
@@ -41,6 +44,14 @@ class DiscogsRelease
 
   def image_count
     @release.xpath('//image').size
+  end
+
+  def genres
+    @release.xpath('//genre')
+  end
+
+  def styles
+    @release.xpath('//style')
   end
 
 end
