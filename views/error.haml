@@ -1,4 +1,11 @@
-%h3 Oops
+%h2 Oops!
 
-%p Cover Source is having problems with your most recent song.
+#more-info
+  %p
+    Cover Source is having problems with your most recent song.
+    Try again when
+    %strong= @user.lp_track
+    by
+    %strong= @user.lp_artist
+    is done playing.
 
