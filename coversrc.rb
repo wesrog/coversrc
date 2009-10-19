@@ -2,9 +2,11 @@ $: << File.join(File.dirname(__FILE__), 'lib')
 require 'lastfm'
 require 'discogs'
 
-c = YAML.load_file('config.yml')
-DISCOGS_API_KEY = c['config']['discogs_api_key']
-LASTFM_API_KEY = c['config']['lastfm_api_key']
+#c = YAML.load_file('config.yml')
+#DISCOGS_API_KEY = c['config']['discogs_api_key']
+#LASTFM_API_KEY = c['config']['lastfm_api_key']
+DISCOGS_API_KEY = ENV['DISCOGS_API_KEY']
+LASTFM_API_KEY = ENV['LASTFM_API_KEY']
 
 before do
   if production?
