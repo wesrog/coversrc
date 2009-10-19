@@ -6,9 +6,8 @@ DISCOGS_API_KEY = '21862297af'
 LASTFM_API_KEY = '667910e60f2e9eb583f722f61dc01aab'
 
 before do
-  if ENV['RACK_ENV'] == 'production'
+  if production?
     headers['Cache-Control'] = 'public, max-age=60'
-    etag @user.to_etag if params[:user]
   end
 end
 
@@ -25,6 +24,10 @@ get '/coversrc.css' do
 end
 
 get %r{^/([\w\-/]+)?} do |user|
+  if production?
+    etag @user.to_etag if params[:user]
+  end
+
   begin
     @user = User.new(user)
     @recent_tracks = @user.recent_tracks
@@ -48,6 +51,10 @@ helpers do
 
   def pluralize(count, word)
     count == 1 ? "#{count} #{word}" : "#{count} #{word}s"
+  end
+
+  def production?
+    ENV['RACK_ENV'] == 'production'
   end
 end
 
