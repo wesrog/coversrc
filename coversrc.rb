@@ -2,8 +2,9 @@ $: << File.join(File.dirname(__FILE__), 'lib')
 require 'lastfm'
 require 'discogs'
 
-DISCOGS_API_KEY = '21862297af'
-LASTFM_API_KEY = '667910e60f2e9eb583f722f61dc01aab'
+c = YAML.load_file('config.yml')
+DISCOGS_API_KEY = c['config']['discogs_api_key']
+LASTFM_API_KEY = c['config']['lastfm_api_key']
 
 before do
   if production?
@@ -36,7 +37,7 @@ get %r{^/([\w\-/]+)?} do |user|
 
     haml :user
   rescue OpenURI::HTTPError
-    haml :index
+    'oops'
   end
 end
 
