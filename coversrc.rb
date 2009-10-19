@@ -24,15 +24,15 @@ get '/coversrc.css' do
 end
 
 get %r{^/([\w\-/]+)?} do |user|
-  if production?
-    etag @user.to_etag
-  end
-
   begin
     @user = User.new(user)
     @recent_tracks = @user.recent_tracks
     @lp_artist = Artist.new(@user.lp_artist)
     @search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
+
+    if production?
+      etag @user.to_etag
+    end
 
     haml :user
   rescue OpenURI::HTTPError
