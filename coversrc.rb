@@ -5,6 +5,13 @@ require 'discogs'
 DISCOGS_API_KEY = '21862297af'
 LASTFM_API_KEY = '667910e60f2e9eb583f722f61dc01aab'
 
+before do
+  if ENV['RACK_ENV'] == 'production'
+    headers['Cache-Control'] = 'public, max-age=60'
+    etag @user.to_etag if @user
+  end
+end
+
 get '/' do
   if params[:user]
     redirect "/#{params[:user]}"
@@ -18,19 +25,14 @@ get '/coversrc.css' do
 end
 
 get %r{^/([\w\-/]+)?} do |user|
-  @user = User.new(user)
-  @recent_tracks = @user.recent_tracks
-  @lp_artist = Artist.new(@user.lp_artist)
-  @search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
+  begin
+    @user = User.new(user)
+    @recent_tracks = @user.recent_tracks
+    @lp_artist = Artist.new(@user.lp_artist)
+    @search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
 
-  if ENV['RACK_ENV'] == 'production'
-    headers['Cache-Control'] = 'public, max-age=60'
-    etag @user.to_etag
-  end
-  
-  unless @user.recent_tracks.empty?
     haml :user
-  else
+  rescue OpenURI::HTTPError
     haml :index
   end
 end

@@ -1,7 +1,6 @@
 require 'digest'
-require 'haml'
-class User
 
+class User
   def initialize(user)
     @user = user
     @recent_tracks = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{@user}&api_key=#{LASTFM_API_KEY}"))
