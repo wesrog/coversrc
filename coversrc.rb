@@ -25,7 +25,7 @@ end
 
 get %r{^/([\w\-/]+)?} do |user|
   if production?
-    etag @user.to_etag if params[:user]
+    etag @user.to_etag
   end
 
   begin
