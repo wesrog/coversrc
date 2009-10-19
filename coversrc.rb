@@ -42,7 +42,7 @@ get %r{^/([\w\-/]+)?} do |user|
 
     haml :user
   rescue OpenURI::HTTPError
-    'oops'
+    haml :error
   end
 end
 
