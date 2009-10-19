@@ -1,5 +1,5 @@
 require 'digest'
-require 'Haml'
+require 'haml'
 class User
 
   def initialize(user)
