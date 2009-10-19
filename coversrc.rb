@@ -2,11 +2,14 @@ $: << File.join(File.dirname(__FILE__), 'lib')
 require 'lastfm'
 require 'discogs'
 
-#c = YAML.load_file('config.yml')
-#DISCOGS_API_KEY = c['config']['discogs_api_key']
-#LASTFM_API_KEY = c['config']['lastfm_api_key']
-DISCOGS_API_KEY = ENV['DISCOGS_API_KEY']
-LASTFM_API_KEY = ENV['LASTFM_API_KEY']
+if production?
+  DISCOGS_API_KEY = ENV['DISCOGS_API_KEY'] 
+  LASTFM_API_KEY = ENV['LASTFM_API_KEY']
+else
+  c = YAML.load_file('config.yml')
+  DISCOGS_API_KEY = c['config']['discogs_api_key']
+  LASTFM_API_KEY = c['config']['lastfm_api_key']
+end
 
 before do
   if production?
