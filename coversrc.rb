@@ -8,7 +8,7 @@ LASTFM_API_KEY = '667910e60f2e9eb583f722f61dc01aab'
 before do
   if ENV['RACK_ENV'] == 'production'
     headers['Cache-Control'] = 'public, max-age=60'
-    etag @user.to_etag if @user
+    etag @user.to_etag if params[:user]
   end
 end
 
