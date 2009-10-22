@@ -38,14 +38,19 @@ get '/discogs/:artist/:track' do
 end
 
 get %r{^/([\w\-/]+)?} do |user|
-  @user = User.new(user)
-  @recent_tracks = @user.recent_tracks
-  @lp_artist = Artist.new(@user.lp_artist)
-  #@search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
+  begin
+    @user = User.new(user)
+    @recent_tracks = @user.recent_tracks
+    @lp_artist = Artist.new(@user.lp_artist)
+    #@search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
 
-  etag @user.to_etag if production?
+    etag @user.to_etag if production?
 
-  haml :user
+    haml :user
+  rescue UserNotFound
+    @user = nil
+    haml '%p User not found'
+  end
 end
 
 helpers do

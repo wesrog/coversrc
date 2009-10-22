@@ -19,7 +19,12 @@
           %label(for="user")= "Not #{@user}?"
           %input(type="text" name="user" size="10")
 
-    #centre= yield
+    #centre
+      - unless @user
+        %h1#logo
+          %a{:href => '/'} Cover Source: Artwork from Last.fm, Discogs and more!
+
+      = yield
 
   :javascript
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

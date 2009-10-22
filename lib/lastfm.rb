@@ -1,5 +1,7 @@
 require 'digest'
 
+class UserNotFound < StandardError; end
+
 class User
   def initialize(user)
     @user = user
@@ -15,7 +17,11 @@ class User
   end
 
   def recent_tracks
-    @recent_tracks.xpath('//track')
+    if r = @recent_tracks.xpath('//track') and r.empty?
+      raise UserNotFound
+    else
+      r
+    end
   end
 
   def to_etag
