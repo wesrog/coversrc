@@ -29,12 +29,17 @@ get '/coversrc.css' do
   sass :coversrc
 end
 
+get '/discogs/:artist/:track' do
+  @search = DiscogsSearch.new(params[:artist], params[:track])
+  haml :discogs, :layout => false
+end
+
 get %r{^/([\w\-/]+)?} do |user|
   begin
     @user = User.new(user)
     @recent_tracks = @user.recent_tracks
     @lp_artist = Artist.new(@user.lp_artist)
-    @search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
+    #@search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
 
     if production?
       etag @user.to_etag

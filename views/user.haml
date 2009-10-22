@@ -4,10 +4,10 @@
 
   %h3
     %a{:href => "http://last.fm/music/#{@user.lp_artist}/_/#{@user.lp_track}"}
-      = @user.lp_track
+      %span#track= @user.lp_track
     by
     %a{:href => "http://last.fm/music/#{@user.lp_artist}"}
-      = @user.lp_artist
+      %span#artist= @user.lp_artist
 
   - @user.images.each do |img|
     - if img['size'] == 'extralarge'
@@ -22,17 +22,7 @@
 #discogs
   #badge
     %img{:src => 'discogs.png'}
+
   %h3= %{"#{@user.lp_track}" Appears on:}
   %dl
-    - @search.results.each do |r|
-      %dt
-        %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
-        = %{(#{r.format})}
-        has
-        = pluralize(r.image_count, 'image')
-      %dd
-        %strong Genres:
-        = r.genres.map { |g| g.content }.join(', ')
-        %br
-        %strong Styles:
-        = r.styles.map { |s| s.content }.join(', ')
+    %dt Loading Discogs data...
