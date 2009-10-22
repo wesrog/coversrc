@@ -28,24 +28,24 @@ get '/coversrc.css' do
 end
 
 get '/discogs/:artist/:track' do
-  @search = DiscogsSearch.new(params[:artist], params[:track])
-  etag Digest::MD5.hexdigest(params[:artist] + params[:track])
-  haml :discogs, :layout => false
+  begin
+    @search = DiscogsSearch.new(params[:artist], params[:track])
+    etag Digest::MD5.hexdigest(params[:artist] + params[:track])
+    haml :discogs, :layout => false
+  rescue OpenURI::HTTPError
+    haml :error, :layout => false
+  end
 end
 
 get %r{^/([\w\-/]+)?} do |user|
-  begin
-    @user = User.new(user)
-    @recent_tracks = @user.recent_tracks
-    @lp_artist = Artist.new(@user.lp_artist)
-    #@search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
+  @user = User.new(user)
+  @recent_tracks = @user.recent_tracks
+  @lp_artist = Artist.new(@user.lp_artist)
+  #@search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
 
-    etag @user.to_etag if production?
+  etag @user.to_etag if production?
 
-    haml :user
-  rescue OpenURI::HTTPError
-    haml :error
-  end
+  haml :user
 end
 
 helpers do
