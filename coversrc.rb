@@ -32,8 +32,6 @@ get '/discogs/:artist/:track' do
     @search = DiscogsSearch.new(params[:artist], params[:track])
     etag Digest::MD5.hexdigest(params[:artist] + params[:track]) if production?
     haml :discogs, :layout => false
-  rescue OpenURI::HTTPError
-    haml :error, :layout => false
   end
 end
 
