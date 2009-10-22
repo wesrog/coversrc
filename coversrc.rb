@@ -12,9 +12,7 @@ else
 end
 
 before do
-  if production?
-    headers['Cache-Control'] = 'public, max-age=60'
-  end
+  headers['Cache-Control'] = 'public, max-age=60' if production?
 end
 
 get '/' do
@@ -31,6 +29,7 @@ end
 
 get '/discogs/:artist/:track' do
   @search = DiscogsSearch.new(params[:artist], params[:track])
+  etag Digest::MD5.hexdigest(params[:artist] + params[:track])
   haml :discogs, :layout => false
 end
 
@@ -41,9 +40,7 @@ get %r{^/([\w\-/]+)?} do |user|
     @lp_artist = Artist.new(@user.lp_artist)
     #@search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
 
-    if production?
-      etag @user.to_etag
-    end
+    etag @user.to_etag if production?
 
     haml :user
   rescue OpenURI::HTTPError
