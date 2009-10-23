@@ -39,6 +39,12 @@ get '/discogs/:artist/:track' do
   end
 end
 
+get '/release/:release_id' do
+  #html = Nokogiri::HTML(open("http://www.discogs.com/viewimages?release=#{params[:release_id]}"))
+  #@release = html.search('//div/img')
+  haml :release, :layout => false
+end
+
 get %r{^/([\w\-/]+)?} do |user|
   begin
     @user = User.new(user)

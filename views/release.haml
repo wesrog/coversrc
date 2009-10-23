@@ -1,0 +1,13 @@
+!!!
+%html
+  %head
+    %title Cover Source: The easiest way to find album artwork.
+    %link(rel="stylesheet" type="text/css" href="/coversrc.css")
+    %link(rel="shortcut icon" href="/favicon.ico" type="image/x-icon")
+  
+  %body
+    #button
+      %p
+        %a(href="\#" onclick="history.back(); return false;") Back to coversrc.com
+    %iframe(src="http://www.discogs.com/viewimages?release=#{params[:release_id]}")
+    -#= @release

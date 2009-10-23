@@ -1,6 +1,7 @@
 - @search.results.each do |r|
   %dt
-    %a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
+    /%a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
+    %a(href="/release/#{r.id}")= r.title
     = %{(#{r.format})}
     has
     = pluralize(r.image_count, 'image')
