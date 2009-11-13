@@ -29,10 +29,10 @@ get '/coversrc.css' do
   sass :coversrc
 end
 
-get '/discogs/:artist/:track' do
+get '/discogs/:user' do
   begin
-    @search = DiscogsSearch.new(params[:artist], params[:track])
-    etag Digest::MD5.hexdigest(params[:artist] + params[:track]) if production?
+    @search = Discogs::Search.new(params[:user])
+    etag Digest::MD5.hexdigest(@user.now_playing) if production?
     haml :discogs, :layout => false
   rescue OpenURI::HTTPError
     haml :error, :layout => false
@@ -41,15 +41,15 @@ end
 
 get '/release/:release_id' do
   #html = Nokogiri::HTML(open("http://www.discogs.com/viewimages?release=#{params[:release_id]}"))
-  #@release = html.search('//div/img')
+  #@release = html.search('img')
   haml :release, :layout => false
 end
 
 get %r{^/([\w\-/]+)?} do |user|
   begin
-    @user = User.new(user)
+    @user = Lastfm::User.new(user)
     @recent_tracks = @user.recent_tracks
-    @lp_artist = Artist.new(@user.lp_artist)
+    @lp_artist = Lastfm::Artist.new(@user.lp_artist)
     #@search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
 
     etag @user.to_etag if production?
