@@ -32,6 +32,7 @@ end
 get '/discogs/:user' do
   begin
     @search = Discogs::Search.new(params[:user])
+    @user = Lastfm::User.new(params[:user])
     etag Digest::MD5.hexdigest(@user.now_playing) if production?
     haml :discogs, :layout => false
   rescue OpenURI::HTTPError
