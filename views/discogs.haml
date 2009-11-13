@@ -1,7 +1,8 @@
+%dl
 - @search.results.each do |r|
   %dt
     /%a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
-    %a(href="/release/#{r.id}")= r.title
+    %a(href="/release/#{r.id}" target="_blank")= r.title
     = %{(#{r.format})}
     has
     = pluralize(r.image_count, 'image')
@@ -11,3 +12,6 @@
     %br
     %strong Styles:
     = r.styles.map { |s| s.content }.join(', ')
+
+%p
+  %a{:href => @search.uri.gsub(/&f=xml.+/, ''), :target => '_blank'} View Results on Discogs

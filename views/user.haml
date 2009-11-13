@@ -12,7 +12,7 @@
   - @user.images.each do |img|
     - if img['size'] == 'extralarge'
       - if img.content == ''
-        %img{:src => 'no-artwork.jpg'}
+        %img{:src => 'no-artwork.jpg', :width => '200'}
       - else
         #artwork
           %img{:src => img.content}
@@ -24,7 +24,8 @@
     %img{:src => 'discogs.png'}
 
   %h3= %{"#{@user.lp_track}" Appears on:}
-  %dl
-    %dt
-      %img{:src => "/loader.gif"}
-      Loading Discogs data...
+  #discogs-releases
+    %dl
+      %dt
+        %img{:src => "/loader.gif"}
+        Loading Discogs data...
