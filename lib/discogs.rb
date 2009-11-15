@@ -64,7 +64,7 @@ module Discogs
       @user = Lastfm::User.new(user)
       @query = URI.encode(@user.now_playing)
       @uri = "http://www.discogs.com/search?type=all&q=#{@query}&f=xml&api_key=#{DISCOGS_API_KEY}"
-      @results = gzip_read(uri)
+      @results = gzip_read(@uri)
     end
 
     def uri

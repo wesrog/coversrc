@@ -41,8 +41,6 @@ get '/discogs/:user' do
 end
 
 get '/release/:release_id' do
-  #html = Nokogiri::HTML(open("http://www.discogs.com/viewimages?release=#{params[:release_id]}"))
-  #@release = html.search('img')
   haml :release, :layout => false
 end
 
@@ -51,7 +49,6 @@ get %r{^/([\w\-/]+)?} do |user|
     @user = Lastfm::User.new(user)
     @recent_tracks = @user.recent_tracks
     @lp_artist = Lastfm::Artist.new(@user.lp_artist)
-    #@search = DiscogsSearch.new(@user.lp_artist, @user.lp_track)
 
     etag @user.to_etag if production?
 

@@ -5,8 +5,7 @@ class UserNotFound < StandardError; end
 module Lastfm
   class User
     def initialize(user)
-      @user = user
-      @recent_tracks = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{@user}&api_key=#{LASTFM_API_KEY}"))
+      @user = URI.encode(user)
     end
 
     def name
@@ -18,11 +17,7 @@ module Lastfm
     end
 
     def recent_tracks
-      if r = @recent_tracks.xpath('//track') and r.empty?
-        raise UserNotFound
-      else
-        r
-      end
+      Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{@user}&api_key=#{LASTFM_API_KEY}")).xpath('//track')
     end
 
     def to_etag
@@ -38,6 +33,7 @@ module Lastfm
     end
 
     def lp_artist
+      raise UserNotFound unless last_played
       last_played.xpath('artist').first.content
     end
 
@@ -60,6 +56,8 @@ module Lastfm
   end
 
   class Artist
+    TAG_LIMIT = 4
+
     def initialize(name)
       @name = name
     end
@@ -70,7 +68,7 @@ module Lastfm
 
     def top_tags
       doc = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=#{URI.encode(@name)}&api_key=#{LASTFM_API_KEY}"))
-      doc.xpath('//tag/name')[0..4]
+      doc.xpath('//tag/name')[0..TAG_LIMIT]
     end
   end
 end
