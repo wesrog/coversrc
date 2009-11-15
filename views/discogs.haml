@@ -1,3 +1,5 @@
+%h3= %{"#{@user.lp_track}" has #{pluralize(@search.results.size, 'release')}:}
+
 %dl
 - @search.results.each do |r|
   %dt
