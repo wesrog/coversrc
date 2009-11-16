@@ -17,7 +17,7 @@
         #artwork
           %img{:src => img.content}
 
-  #tags= @lp_artist.top_tags.map { |t| tag_link(t.content)}.join(' ')
+  #tags= @artist.top_tags.map { |t| tag_link(t.content)}.join(' ')
 
 #discogs
   #badge

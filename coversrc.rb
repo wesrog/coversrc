@@ -47,8 +47,7 @@ end
 get %r{^/([\w\-/]+)?} do |user|
   begin
     @user = Lastfm::User.new(user)
-    @recent_tracks = @user.recent_tracks
-    @lp_artist = Lastfm::Artist.new(@user.lp_artist)
+    @artist = Lastfm::Artist.new(@user.lp_artist)
 
     etag @user.to_etag if production?
 

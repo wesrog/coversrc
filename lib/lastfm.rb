@@ -56,8 +56,6 @@ module Lastfm
   end
 
   class Artist
-    TAG_LIMIT = 4
-
     def initialize(name)
       @name = name
     end
@@ -68,7 +66,7 @@ module Lastfm
 
     def top_tags
       doc = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=#{URI.encode(@name)}&api_key=#{LASTFM_API_KEY}"))
-      doc.xpath('//tag/name')[0..TAG_LIMIT]
+      doc.xpath('//tag/name')
     end
   end
 end
