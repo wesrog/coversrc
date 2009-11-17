@@ -25,7 +25,7 @@ get '/' do
 end
 
 get '/coversrc.css' do
-  header 'Content-Type' => 'text/css; charset=utf-8'
+  headers 'Content-Type' => 'text/css; charset=utf-8'
   sass :coversrc
 end
 
