@@ -29,10 +29,11 @@ get '/coversrc.css' do
   sass :coversrc
 end
 
-get '/discogs/:user' do
+get '/discogs' do
   begin
-    @search = Discogs::Search.new(params[:user])
-    @user = Lastfm::User.new(params[:user])
+    user = request.cookies['coversrc_user']
+    @search = Discogs::Search.new(user)
+    @user = Lastfm::User.new(user)
     etag Digest::MD5.hexdigest(@user.now_playing) if production?
     haml :discogs, :layout => false
   rescue OpenURI::HTTPError
@@ -47,6 +48,7 @@ end
 get %r{^/([\w\-/]+)?} do |user|
   begin
     @user = Lastfm::User.new(user)
+    response.set_cookie 'coversrc_user', @user
     @artist = Lastfm::Artist.new(@user.lp_artist)
 
     etag @user.to_etag if production?

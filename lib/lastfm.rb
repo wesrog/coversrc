@@ -19,6 +19,11 @@ module Lastfm
 
     def recent_tracks
       doc = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{@user}&api_key=#{LASTFM_API_KEY}")).xpath('//track')
+      if tracks = doc.xpath('//track')
+        tracks
+      else
+        raise UserNotFound
+      end
     end
 
     def to_etag

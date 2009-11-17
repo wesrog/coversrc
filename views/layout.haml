@@ -27,18 +27,16 @@
     google.load("jqueryui", "1.7.2");
   %script(type="text/javascript" src="/coversrc.js")
 
-  :javascript
-    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-
-  :javascript
-    try {
-    var pageTracker = _gat._getTracker("UA-828963-3");
-    pageTracker._trackPageview();
-    } catch(err) {}
-
   - if production?
     :javascript
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+      try {
+      var pageTracker = _gat._getTracker("UA-828963-3");
+      pageTracker._trackPageview();
+      } catch(err) {}
+
       var is_ssl = ("https:" == document.location.protocol);
       var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
       document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
