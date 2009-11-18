@@ -48,10 +48,10 @@ end
 get %r{^/([\w\-/]+)?} do |user|
   begin
     @user = Lastfm::User.new(user)
-    response.set_cookie 'coversrc_user', user
     @artist = Lastfm::Artist.new(@user.lp_artist)
 
     etag @user.to_etag if production?
+    response.set_cookie 'coversrc_user', user
 
     haml :user
   rescue UserNotFound

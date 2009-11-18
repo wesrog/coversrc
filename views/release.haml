@@ -8,5 +8,5 @@
   %body
     #button
       %p
-        %a(href="\#" onclick="history.back(); return false;") Back to coversrc.com
+        %a(href="/#{request.cookies['coversrc_user']}") Back to coversrc.com
     %iframe(src="http://www.discogs.com/viewimages?release=#{params[:release_id]}")
