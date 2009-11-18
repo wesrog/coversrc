@@ -18,7 +18,7 @@ module Lastfm
     end
 
     def recent_tracks
-      doc = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{@user}&api_key=#{LASTFM_API_KEY}", 'User-Agent' => 'coversrc')).xpath('//track')
+      doc = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{@user}&api_key=#{LASTFM_API_KEY}", 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')).xpath('//track')
       if tracks = doc.xpath('//track')
         tracks
       else

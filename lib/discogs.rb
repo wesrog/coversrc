@@ -2,7 +2,7 @@ require 'zlib'
 
 module Gzipper
   def gzip_read(uri)
-    req = open(uri, 'Accept-Encoding' => 'gzip', 'User-Agent' => 'coversrc')
+    req = open(uri, 'Accept-Encoding' => 'gzip', 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')
     gzip = Zlib::GzipReader.new(req)
     Nokogiri::XML(gzip)
   rescue Zlib::GzipFile::Error
