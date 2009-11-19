@@ -50,7 +50,7 @@ get %r{^/([\w\-/]+)?} do |user|
     @user = Lastfm::User.new(user)
     @artist = Lastfm::Artist.new(@user.lp_artist)
 
-    etag @user.to_etag if production?
+    #etag @user.to_etag if production?
     response.set_cookie 'coversrc_user', user
 
     haml :user
