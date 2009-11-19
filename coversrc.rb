@@ -14,7 +14,7 @@ configure do
 end
 
 before do
-  headers['Cache-Control'] = 'public, max-age=60' if production?
+  #headers['Cache-Control'] = 'public, max-age=60' if production?
 end
 
 get '/' do
@@ -34,7 +34,7 @@ get '/discogs' do
     user = request.cookies['coversrc_user']
     @search = Discogs::Search.new(user)
     @user = Lastfm::User.new(user)
-    etag Digest::MD5.hexdigest(@user.now_playing) if production?
+    #etag Digest::MD5.hexdigest(@user.now_playing) if production?
     haml :discogs, :layout => false
   rescue OpenURI::HTTPError
     haml :error, :layout => false
