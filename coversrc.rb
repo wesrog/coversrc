@@ -41,23 +41,23 @@ get '/discogs' do
   end
 end
 
+get '/lastfm' do
+  @user = Lastfm::User.new(request.cookies['coversrc_user'])
+  @artist = Lastfm::Artist.new(@user.lp_artist)
+
+  #etag @user.to_etag if production?
+  haml :lastfm, :layout => false
+end
+
 get '/release/:release_id' do
   haml :release, :layout => false
 end
 
 get %r{^/([\w\-/]+)?} do |user|
-  begin
-    @user = Lastfm::User.new(user)
-    @artist = Lastfm::Artist.new(@user.lp_artist)
-
-    #etag @user.to_etag if production?
-    response.set_cookie 'coversrc_user', user
-
-    haml :user
-  rescue UserNotFound
-    @user = nil
-    haml '%p User not found'
-  end
+  response.set_cookie 'coversrc_user', user
+  haml :user
+  #@user = nil
+  #haml '%p User not found'
 end
 
 helpers do

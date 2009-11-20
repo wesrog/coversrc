@@ -2,29 +2,16 @@
   #badge
     %img{:src => 'lastfm.png'}
 
-  %h3
-    %a{:href => "http://last.fm/music/#{@user.lp_artist}/_/#{@user.lp_track}"}
-      %span#track= @user.lp_track
-    by
-    %a{:href => "http://last.fm/music/#{@user.lp_artist}"}
-      %span#artist= @user.lp_artist
-
-  - @user.images.each do |img|
-    - if img['size'] == 'extralarge'
-      - if img.content == ''
-        %img{:src => 'no-artwork.jpg', :width => '200'}
-      - else
-        #artwork
-          %img{:src => img.content}
-
-  #tags= @artist.top_tags.map { |t| tag_link(t.content)}.join(' ')
+  #lastfm-data
+    #loading
+      %img{:src => "/loader.gif"}
+      Loading Last.fm data...
 
 #discogs
   #badge
     %img{:src => 'discogs.png'}
 
   #discogs-releases
-    %dl
-      %dt
-        %img{:src => "/loader.gif"}
-        Loading Discogs data...
+    #loading
+      %img{:src => "/loader.gif"}
+      Loading Discogs data...
