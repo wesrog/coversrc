@@ -54,6 +54,7 @@ get '/release/:release_id' do
 end
 
 get %r{^/([\w\-/]+)?} do |user|
+  @user = user
   response.set_cookie 'coversrc_user', user
   haml :user
   #@user = nil
