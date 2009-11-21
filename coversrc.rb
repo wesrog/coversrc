@@ -36,11 +36,12 @@ end
 get '/discogs' do
   begin
     user = request.cookies['coversrc_user']
-    @search = Discogs::Search.new(user)
     @user = Lastfm::User.new(user)
+    @search = Discogs::Search.new(@user.now_playing)
     #etag Digest::MD5.hexdigest(@user.now_playing) if production?
     haml :discogs, :layout => false
-  rescue OpenURI::HTTPError
+  rescue Exception => e
+    @e = e
     haml :error, :layout => false
   end
 end
