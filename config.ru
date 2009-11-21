@@ -1,7 +1,5 @@
 require 'rubygems'
 require 'sinatra'
-require 'nokogiri'
-require 'open-uri'
 require 'haml'
 require 'sass'
 require 'coversrc'

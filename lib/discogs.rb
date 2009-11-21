@@ -1,10 +1,8 @@
 require 'zlib'
 
 module Gzipper
-  def gzip_read(uri)
-    req = open(uri, 'Accept-Encoding' => 'gzip', 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')
-    gzip = Zlib::GzipReader.new(req)
-    Nokogiri::XML(gzip)
+  def gzip_read(data)
+    Zlib::GzipReader.new(data)
   rescue Zlib::GzipFile::Error
     # TODO not sure why this happens and the best way to handle the error
     Nokogiri::XML::Document.new
@@ -60,11 +58,21 @@ module Discogs
   class Search
     include Gzipper
 
-    def initialize(user)
-      @user = Lastfm::User.new(user)
-      @query = URI.encode(@user.now_playing)
-      @uri = "http://www.discogs.com/search?type=all&q=#{@query}&f=xml&api_key=#{DISCOGS_API_KEY}"
-      @results = gzip_read(@uri)
+    def initialize(now_playing)
+      @uri = "http://www.discogs.com/search?type=all&q=#{URI.encode(now_playing)}&f=xml&api_key=#{DISCOGS_API_KEY}"
+      @req = open(@uri, 'Accept-Encoding' => 'gzip', 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')
+    end
+
+    def response
+      @req
+    end
+
+    def read
+      @results = gzip_read(@req)
+    end
+
+    def doc
+      Nokogiri::XML(read)
     end
 
     def uri
@@ -72,7 +80,7 @@ module Discogs
     end
 
     def results
-      @results.xpath('//result').map { |r| Discogs::Release.new(r.xpath('uri').first.content.scan(/\d+$/)) }
+      doc.xpath('//result').map { |r| Discogs::Release.new(r.xpath('uri').first.content.scan(/\d+$/)) }
     end
 
     def image_count

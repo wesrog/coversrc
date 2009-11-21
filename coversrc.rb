@@ -1,4 +1,8 @@
 $: << File.join(File.dirname(__FILE__), 'lib')
+require 'rubygems'
+require 'sinatra'
+require 'nokogiri'
+require 'open-uri'
 require 'lastfm'
 require 'discogs'
 
