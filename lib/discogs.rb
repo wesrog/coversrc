@@ -10,6 +10,44 @@ module Gzipper
 end
 
 module Discogs
+  class Search
+    include Gzipper
+
+    attr_reader :response, :uri
+
+    def initialize(now_playing)
+      @uri = "http://www.discogs.com/search?type=all&q=#{URI.encode(now_playing)}&f=xml&api_key=#{DISCOGS_API_KEY}"
+      @response = open(@uri, 'Accept-Encoding' => 'gzip', 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')
+    end
+
+    def read
+      gzip_read(@response)
+    end
+
+    def doc
+      Nokogiri::XML(read)
+    end
+
+    def results
+      #doc.xpath('//result').map { |r| Discogs::Release.new(r.xpath('uri').first.content.scan(/\d+$/)) }
+      results = doc.xpath('//result')
+      if results.empty?
+        raise NoResultsFound
+      else
+        results
+      end
+    end
+
+    def image_count
+      results.inject { |sum, result| sum ? sum + result : result }
+    end
+
+    def ids
+      @results.xpath('//result').map { |r| r.xpath('uri').first.content.scan(/\d+$/) }
+    end
+
+  end
+
   class Release
     include Gzipper
 
@@ -52,44 +90,5 @@ module Discogs
     def styles
       @release.xpath('//style')
     end
-
-  end
-
-  class Search
-    include Gzipper
-
-    def initialize(now_playing)
-      @uri = "http://www.discogs.com/search?type=all&q=#{URI.encode(now_playing)}&f=xml&api_key=#{DISCOGS_API_KEY}"
-      @req = open(@uri, 'Accept-Encoding' => 'gzip', 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')
-    end
-
-    def response
-      @req
-    end
-
-    def read
-      @results = gzip_read(@req)
-    end
-
-    def doc
-      Nokogiri::XML(read)
-    end
-
-    def uri
-      @uri
-    end
-
-    def results
-      doc.xpath('//result').map { |r| Discogs::Release.new(r.xpath('uri').first.content.scan(/\d+$/)) }
-    end
-
-    def image_count
-      results.inject { |sum, result| sum ? sum + result : result }
-    end
-
-    def ids
-      @results.xpath('//result').map { |r| r.xpath('uri').first.content.scan(/\d+$/) }
-    end
-
   end
 end
