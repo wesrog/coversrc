@@ -1,13 +1,15 @@
 require 'zlib'
 
 class Discogs
-  attr_reader :doc, :uri
+  attr_reader :doc, :uri, :response
 
   def initialize(uri)
     @uri = uri
-    response = open(uri, 'Accept-Encoding' => 'gzip', 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')
-    data = Zlib::GzipReader.new(response)
+    @response = open(@uri, 'Accept-Encoding' => 'gzip', 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')
+    data = Zlib::GzipReader.new(@response)
     @doc = Nokogiri::XML(data)
+  rescue Zlib::GzipFile::Error
+    @doc = data
   end
 end
 
@@ -31,7 +33,6 @@ class Search < Discogs
       Release.new(id)
     end
   end
-
 end
 
 class Release < Discogs
