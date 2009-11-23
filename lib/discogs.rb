@@ -37,8 +37,11 @@ class Search < Discogs
 end
 
 class Release < Discogs
+  attr_reader :discogs_id
+
   def initialize(id)
-    super("http://www.discogs.com/release/#{id}?f=xml&api_key=#{DISCOGS_API_KEY}")
+    @discogs_id = id
+    super("http://www.discogs.com/release/#{@discogs_id}?f=xml&api_key=#{DISCOGS_API_KEY}")
   end
 
   def title
