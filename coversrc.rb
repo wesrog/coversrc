@@ -1,20 +1,24 @@
 $: << File.join(File.dirname(__FILE__), 'lib')
 require 'rubygems'
 require 'sinatra'
+require 'haml'
+require 'sass'
 require 'nokogiri'
 require 'open-uri'
 require 'lastfm'
 require 'discogs'
 
-configure do
-  if production?
-    DISCOGS_API_KEY = ENV['DISCOGS_API_KEY'] 
-    LASTFM_API_KEY = ENV['LASTFM_API_KEY']
-  else
-    c = YAML.load_file('config.yml')
-    DISCOGS_API_KEY = c['config']['discogs_api_key']
-    LASTFM_API_KEY = c['config']['lastfm_api_key']
-  end
+configure :production do
+  DISCOGS_API_KEY = ENV['DISCOGS_API_KEY'] 
+  LASTFM_API_KEY = ENV['LASTFM_API_KEY']
+end
+
+configure :development do
+  use Rack::Reloader
+
+  c = YAML.load_file('config.yml')
+  DISCOGS_API_KEY = c['config']['discogs_api_key']
+  LASTFM_API_KEY = c['config']['lastfm_api_key']
 end
 
 before do
@@ -57,7 +61,7 @@ get '/lastfm' do
   rescue UserNotFound
     response.set_cookie 'coversrc_user', nil
     haml '%p User not found', :layout => false
-    #status 404
+    status 404
   end
 end
 

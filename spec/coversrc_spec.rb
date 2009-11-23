@@ -1,15 +1,10 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe "coversrc" do
-  include Rack::Test::Methods
-
-  def app
-    @app ||= Sinatra::Application
-  end
-
   it "should return a 200 on the homepage" do
     get '/'
     last_response.status.should == 200
+    assert last_response.body.include?('music')
   end
 
   it "should return a 200 on valid user" do
