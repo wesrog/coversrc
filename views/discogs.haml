@@ -1,19 +1,20 @@
-%h3= %{"#{@user.lp_track}" has #{pluralize(@search.results.size, 'release')}:}
+%h3= %{"#{@user.lp_track}" is found on #{pluralize(@search.results.size, 'release')}:}
 
 %dl
-- @search.releases.each do |r|
-  %dt
-    /%a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
-    %a(href="/release/#{r.id}" target="_blank")= r.title
-    = %{(#{r.format})}
-    has
-    = pluralize(r.image_count, 'image')
-  %dd
-    %strong Genres:
-    = r.genres.map { |g| g.content }.join(', ')
-    %br
-    %strong Styles:
-    = r.styles.map { |s| s.content }.join(', ')
+  - @search.releases.each do |r|
+    - if r.image_count > 0
+      %dt
+        /%a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
+        %a(href="/release/#{r.id}" target="_blank")= r.title
+        = %{(#{r.format})}
+        has
+        = pluralize(r.image_count, 'image')
+      %dd
+        %strong Genres:
+        = r.genres.map { |g| g.content }.join(', ')
+        %br
+        %strong Styles:
+        = r.styles.map { |s| s.content }.join(', ')
 
 %p
   %a{:href => @search.uri.gsub(/&f=xml.+/, ''), :target => '_blank'} View Results on Discogs

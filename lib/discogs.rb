@@ -1,5 +1,7 @@
 require 'zlib'
 
+class NoResultsFound < StandardError; end
+
 class Discogs
   attr_reader :doc, :uri, :response
 
@@ -29,8 +31,7 @@ class Search < Discogs
 
   def releases
     results.map do |r|
-      id = r.xpath('uri').first.content.scan(/\d+$/)
-      Release.new(id)
+      Release.new(r.xpath('uri').first.content.scan(/\d+$/))
     end
   end
 end

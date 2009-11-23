@@ -39,6 +39,8 @@ get '/discogs' do
     @search = Search.new(@user.now_playing)
     #etag Digest::MD5.hexdigest(@user.now_playing) if production?
     haml :discogs, :layout => false
+  rescue UserNotFound
+    haml '%p User not found', :layout => false
   rescue Exception => e
     @e = e
     haml :error, :layout => false
@@ -46,11 +48,17 @@ get '/discogs' do
 end
 
 get '/lastfm' do
-  @user = Lastfm::User.new(request.cookies['coversrc_user'])
-  @artist = Lastfm::Artist.new(@user.lp_artist)
+  begin
+    @user = Lastfm::User.new(request.cookies['coversrc_user'])
+    @artist = Lastfm::Artist.new(@user.lp_artist)
 
-  #etag @user.to_etag if production?
-  haml :lastfm, :layout => false
+    #etag @user.to_etag if production?
+    haml :lastfm, :layout => false
+  rescue UserNotFound
+    response.set_cookie 'coversrc_user', nil
+    haml '%p User not found', :layout => false
+    #status 404
+  end
 end
 
 get '/release/:release_id' do
@@ -59,10 +67,8 @@ end
 
 get %r{^/([\w\-/]+)?} do |user|
   @user = user
-  response.set_cookie 'coversrc_user', user
+  response.set_cookie 'coversrc_user', @user
   haml :user
-  #@user = nil
-  #haml '%p User not found'
 end
 
 helpers do

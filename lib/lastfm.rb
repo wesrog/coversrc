@@ -5,13 +5,15 @@ class ArtistNotFound < StandardError; end
 
 module Lastfm
   class User
-    def initialize(user)
-      @user = user
-      @doc = Nokogiri::XML(open("http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{URI.encode(@user)}&api_key=#{LASTFM_API_KEY}", 'User-Agent' => 'coversrc/1.0 +http://coversrc.com'))
-    end
+    attr_reader :name, :uri, :response
 
-    def name
-      @user
+    def initialize(name)
+      @name = name
+      @uri = "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=#{URI.encode(@name)}&api_key=#{LASTFM_API_KEY}"
+      @response = open(@uri, 'User-Agent' => 'coversrc/1.0 +http://coversrc.com')
+      @doc = Nokogiri::XML(@response).xpath('//track')
+      raise UserNotFound if @doc.empty?
+      @doc
     end
 
     def to_s
