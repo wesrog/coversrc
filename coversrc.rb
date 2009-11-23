@@ -13,12 +13,16 @@ configure :production do
   LASTFM_API_KEY = ENV['LASTFM_API_KEY']
 end
 
-configure :development do
-  use Rack::Reloader
+configure :test do
+  keys = YAML.load_file('config.yml')['keys']
+  DISCOGS_API_KEY = keys['discogs']
+  LASTFM_API_KEY = keys['lastfm']
+end
 
-  c = YAML.load_file('config.yml')
-  DISCOGS_API_KEY = c['config']['discogs_api_key']
-  LASTFM_API_KEY = c['config']['lastfm_api_key']
+configure :development do
+  keys = YAML.load_file('config.yml')['keys']
+  DISCOGS_API_KEY = keys['discogs']
+  LASTFM_API_KEY = keys['lastfm']
 end
 
 before do
