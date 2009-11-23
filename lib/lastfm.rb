@@ -37,7 +37,6 @@ module Lastfm
     end
 
     def lp_artist
-      raise UserNotFound unless last_played
       last_played.xpath('artist').first.content
     end
 
