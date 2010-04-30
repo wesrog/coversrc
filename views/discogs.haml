@@ -5,7 +5,7 @@
     - if r.image_count > 0
       %dt
         /%a{:href => "http://www.discogs.com/viewimages?release=#{r.id}"}= r.title
-        %a(href="/release/#{r.discogs_id}" target="_blank")= r.title
+        %a(href="/release/#{r.discogs_id}")= r.title
         = %{(#{r.format})}
         has
         = pluralize(r.image_count, 'image')
