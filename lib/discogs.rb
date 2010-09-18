@@ -23,14 +23,6 @@ class Search < Discogs
     super("#{API_BASE}?type=all&q=#{URI.encode(now_playing)}&f=xml&api_key=#{DISCOGS_API_KEY}")
   end
 
-  def response
-    @response
-  end
-
-  def doc
-    @doc
-  end
-
   def results
     nodes = @doc.xpath('//result')
     if nodes.empty?
