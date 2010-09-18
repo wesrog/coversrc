@@ -2,6 +2,8 @@ require 'zlib'
 
 class NoResultsFound < StandardError; end
 
+API_BASE = 'http://www.discogs.com/search'
+
 class Discogs
   attr_reader :doc, :uri, :response
 
@@ -11,13 +13,22 @@ class Discogs
     data = Zlib::GzipReader.new(@response)
     @doc = Nokogiri::XML(data)
   rescue Zlib::GzipFile::Error
-    @doc = data
+    @response.seek(0)
+    @doc = Nokogiri::XML(@response.read)
   end
 end
 
 class Search < Discogs
   def initialize(now_playing)
-    super("http://www.discogs.com/search?type=all&q=#{URI.encode(now_playing)}&f=xml&api_key=#{DISCOGS_API_KEY}")
+    super("#{API_BASE}?type=all&q=#{URI.encode(now_playing)}&f=xml&api_key=#{DISCOGS_API_KEY}")
+  end
+
+  def response
+    @response
+  end
+
+  def doc
+    @doc
   end
 
   def results
